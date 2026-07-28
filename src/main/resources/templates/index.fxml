@@ -26,8 +26,8 @@
          <children>
             <Button fx:id="agregarBoton" layoutX="24.0" layoutY="22.0" mnemonicParsing="false" onAction="#agregarTarea" text="Agregar" />
             <Button fx:id="modificarBoton" layoutX="127.0" layoutY="22.0" mnemonicParsing="false" onAction="#modificarTarea" text="Modificar" />
-            <Button fx:id="eliminarBoton" layoutX="235.0" layoutY="22.0" mnemonicParsing="false" text="Eliminar" />
-            <Button fx:id="limpiarBoton" layoutX="326.0" layoutY="22.0" mnemonicParsing="false" text="Limpiar" />
+            <Button fx:id="eliminarBoton" layoutX="235.0" layoutY="22.0" mnemonicParsing="false" onAction="#eliminarTarea" text="Eliminar" />
+            <Button fx:id="limpiarBoton" layoutX="326.0" layoutY="22.0" mnemonicParsing="false" onAction="#limpiarFormulario" text="Limpiar" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="14.0" layoutY="93.0" prefHeight="200.0" prefWidth="227.0">
