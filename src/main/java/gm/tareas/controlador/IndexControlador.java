@@ -51,6 +51,8 @@ public class IndexControlador implements Initializable {
     @FXML
     private TextField estatusTexto;
 
+    private Integer idTareaInterno;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         tareaTabla.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -80,11 +82,57 @@ public class IndexControlador implements Initializable {
         }else{
             var tarea = new Tarea();
             recolectarDatosFormulario(tarea);
+            tarea.setIdTarea(null);
             tareaServicio.guardarTarea(tarea);
             mostrarMensaje("Informacion", "Tarea agregada");
             limpiarFormulario();
             listarTareas();
         }
+    }
+
+    public void cargarTareaFormulario(){
+        var tarea = tareaTabla.getSelectionModel().getSelectedItem();
+        if(tarea != null){
+            idTareaInterno = tarea.getIdTarea();
+            nombreTareaTexto.setText(tarea.getNombreTarea());
+            responsableTexto.setText(tarea.getResponsable());
+            estatusTexto.setText(tarea.getEstatus());
+
+        }
+    }
+
+
+    private void recolectarDatosFormulario( Tarea tarea){
+        if(idTareaInterno != null)
+            tarea.setIdTarea(idTareaInterno);
+        tarea.setNombreTarea(nombreTareaTexto.getText());
+        tarea.setResponsable(responsableTexto.getText());
+        tarea.setEstatus(estatusTexto.getText());
+    }
+
+    public void modificarTarea(){
+        if(idTareaInterno == null){
+            mostrarMensaje("Información", "Debe seleccionar una tare");
+            return;
+        }
+        if(nombreTareaTexto.getText().isEmpty()){
+            mostrarMensaje("Error validación", "Debe proporcionar una tarea");
+            nombreTareaTexto.requestFocus();
+            return;
+        }
+        var tarea = new Tarea();
+        recolectarDatosFormulario(tarea);
+        tareaServicio.guardarTarea(tarea);
+        mostrarMensaje("Información", "Tarea modificada");
+        limpiarFormulario();
+        listarTareas();
+    }
+
+    private void limpiarFormulario(){
+        idTareaInterno = null;
+        nombreTareaTexto.clear();
+        responsableTexto.clear();
+        estatusTexto.clear();
     }
 
     private void mostrarMensaje(String titulo, String mensaje){
@@ -93,18 +141,6 @@ public class IndexControlador implements Initializable {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
-    }
-
-    private void recolectarDatosFormulario( Tarea tarea){
-        tarea.setNombreTarea(nombreTareaTexto.getText());
-        tarea.setResponsable(responsableTexto.getText());
-        tarea.setEstatus(estatusTexto.getText());
-    }
-
-    private void limpiarFormulario(){
-        nombreTareaTexto.clear();
-        responsableTexto.clear();
-        estatusTexto.clear();
     }
 
 }
